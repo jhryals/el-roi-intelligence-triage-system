@@ -276,7 +276,7 @@ You may not copy, distribute, modify, or use any part of this project without ex
 ## Contact
 
 Developed and maintained by **Justin Ryals**  
-📫 [LinkedIn](https://linkedin.com/in/justinryals)  
+📫 [LinkedIn](https://www.linkedin.com/in/justin-ryals-a61627371/)  
 📧 For usage or licensing inquiries, please contact the author directly.
 
 
