@@ -1,10 +1,8 @@
 # EL ROI: AI-Driven Intelligence Triage System
 
-**EL ROI** (Enhanced Language-based Rapid Open-source Intelligence) is an AI-powered triage system designed to support the early phases of the Intelligence Cycle—**Collection**, **Processing & Exploitation**, and **Analysis & Production**.
+**EL ROI** (Enhanced Language-based Rapid Open-source Intelligence) is an AI-powered system that accelerates the triage of vast multilingual OSINT streams by operationalizing the early phases of the Intelligence Cycle: **Collection**, **Processing & Exploitation**, and **Analysis & Production**.
 
-It ingests live-streaming multilingual OSINT data, processes and enriches it through automated NLP pipelines, and intelligently surfaces thematically relevant insights. Analysts can query the system in natural language, explore communication clusters visually, and export structured intelligence summaries with source traceability.
-
-The purpose of EL ROI is to accelerate insight discovery, reduce cognitive overload, and lay the groundwork for timely, actionable intelligence.
+It ingests, enriches, and semantically clusters high-volume communications, enabling analysts to query insights in natural language, explore visual patterns, and export intelligence reports with full source traceability. EL ROI reduces cognitive overload and increases the speed at which actionable intelligence can be surfaced, analyzed, and disseminated.
 
 ---
 
@@ -27,53 +25,64 @@ The purpose of EL ROI is to accelerate insight discovery, reduce cognitive overl
 - Source-attributed intelligence output
 
 ### 4. Dissemination 
-- Export support to CHRONICLE for auto-generated reports (Planned)
+- Export support to CHRONICLE for auto-generated reports (Markdown, PDF)
+- Analyst dashboard available via a secure **Streamlit-based web interface**
 
 ---
 
-## System Architecture 
+### User Interaction
+- Analysts access the system through a secure browser-based interface
+- Natural language queries return interactive results within the web app
+- Results can be filtered, visualized, and exported to CHRONICLE (an AI-powered reporting module for structured summary generation), which can then be transformed into standard intelligence reporting formats.
 
-                    ┌────────────────────┐
-                    │  OSINT Data Feeds  │
-                    └────────┬───────────┘
-                             ▼
-                   ┌──────────────────────┐
-                   │ Ingestion Pipeline   │
-                   │ (Streaming/Batch)    │
-                   └────────┬─────────────┘
-                            ▼
-              ┌─────────────────────────────┐
-              │ Preprocessing & Enrichment  │
-              │ - Language Detection        │
-              │ - Translation               │
-              │ - Entity Extraction         │
-              │ - Deduplication             │
-              └────────┬────────────────────┘
-                       ▼
-               ┌────────────────────────────┐
-               │ Classification & Clustering│
-               └────────┬───────────────────┘
+> ℹ️ While Streamlit supports rapid prototyping, future UI enhancements may include migration to a full-stack web framework (e.g., React + FastAPI) for scalability and finer control.
+
+---
+
+## System Architecture
+
+```text
+                ┌────────────────────┐
+                │  OSINT Data Feeds  │
+                └────────┬───────────┘
+                         ▼
+               ┌──────────────────────┐
+               │ Ingestion Pipeline   │
+               │ (Streaming/Batch)    │
+               └────────┬─────────────┘
                         ▼
-             ┌──────────────────────────────┐
-             │ Vector DB + Metadata Store   │
-             │ (FAISS + PostgreSQL/Elastic) │
-             └────────┬─────────────────────┘
-                      ▼
-          ┌──────────────────────────────┐
-          │ Natural Language Interface   │
-          └────────┬────────────┬────────┘
-                   │            │
-       ┌────────────┐   ┌──────────────┐
-       │ Analyst     │   │ AuthN/AuthZ │
-       │ Feedback    │   └──────────────┘
-       └────▲────────┘
-            │
-            ▼
-     ┌────────────────────────────────────┐
-     │ Export to CHRONICLE & Visual UI    │
-     │ (Exploration, Graphs, Filtering)   │
-     └────────────────────────────────────┘
-
+          ┌─────────────────────────────┐
+          │ Preprocessing & Enrichment  │
+          │ - Language Detection        │
+          │ - Translation               │
+          │ - Entity Extraction         │
+          │ - Deduplication             │
+          └────────┬────────────────────┘
+                   ▼
+           ┌────────────────────────────┐
+           │ Classification & Clustering│
+           └────────┬───────────────────┘
+                    ▼
+         ┌──────────────────────────────┐
+         │ Vector DB + Metadata Store   │
+         │ (FAISS + PostgreSQL/Elastic) │
+         └────────┬─────────────────────┘
+                  ▼
+      ┌──────────────────────────────┐
+      │ Natural Language Interface   │
+      └────────┬────────────┬────────┘
+               │            │
+   ┌────────────┐   ┌──────────────┐
+   │ Analyst     │   │ AuthN/AuthZ │
+   │ Feedback    │   └──────────────┘
+   └────▲────────┘
+        │
+        ▼
+ ┌────────────────────────────────────┐
+ │ Export to CHRONICLE & Visual UI    │
+ │ (Exploration, Graphs, Filtering)   │
+ └────────────────────────────────────┘
+```
 
 ---
 
@@ -85,15 +94,47 @@ The purpose of EL ROI is to accelerate insight discovery, reduce cognitive overl
 - `clustering/`: Groups related documents by semantic similarity
 - `vector_store/`: FAISS-based vector search engine with PostgreSQL/Elasticsearch metadata
 - `nl_interface/`: Natural language query handler with retrieval-based output
-- `ui/`: Visual exploration dashboard (Streamlit-based)
+- `ui/`: Visual exploration dashboard (Streamlit-based web app)
 - `auth/`: Authentication and authorization services
 - `integration/chronicle_exporter/`: Optional output pipe to CHRONICLE
+- `visualization/`: Entity and cluster graph exploration
+- `feedback/`: Analyst feedback logger and relevance scorer
+- `logging/`: Operational log management and error tracking
+
+---
+
+## Folder Structure
+
+- `el-roi/`
+  - `auth/` – Authentication and role-based access control
+  - `classification/` – Thematic classification using AI models
+  - `clustering/` – Semantic clustering of documents
+  - `config/` – Pipeline and model configuration files
+  - `data_ingestion/` – OSINT ingestion via APIs, feeds, and schedulers
+  - `deployment/` – Dockerfiles, CI/CD configs, and cloud deployment
+  - `docs/` – System architecture and technical documentation
+  - `feedback/` – Analyst feedback logging and scoring
+  - `integration/`
+    - `chronicle_exporter/` – Export logic to CHRONICLE report format
+  - `logging/` – Log formatting and management
+  - `models/` – ML model wrappers, utilities, and checkpoints
+  - `nl_interface/` – Natural language query handling (RAG pipeline)
+  - `preprocessing/` – NLP tasks: NER, translation, deduplication
+  - `tests/` – Unit and integration test cases
+  - `ui/` – Streamlit-based analyst dashboard
+  - `vector_store/` – FAISS + metadata DB logic
+  - `visualization/` – Cluster and entity graph visualization
+  - `.env.example` – Environment variable template
+  - `.gitignore` – Git exclusions
+  - `requirements.txt` – Python dependencies
+  - `README.md` – Project overview and documentation
+  - `.secrets/` – Git-ignored local API keys and credentials
 
 ---
 
 ## Development Roadmap
 
-### **Phase 1 – Collection & Processing MVP**
+### Phase 1 – Collection & Processing MVP
 - [x] Set up GitHub repo + documentation
 - [ ] Ingest multilingual OSINT from RSS/news/social APIs
 - [ ] Implement preprocessing:
@@ -105,19 +146,15 @@ The purpose of EL ROI is to accelerate insight discovery, reduce cognitive overl
 - [ ] Integrate vector similarity search with FAISS
 - [ ] Implement metadata filtering (PostgreSQL or Elasticsearch)
 
----
-
-### **Phase 2 – Analyst Interface & Intelligence Exploration**
-- [ ] Build Streamlit-based visual dashboard
+### Phase 2 – Analyst Interface & Intelligence Exploration
+- [ ] Build Streamlit-based visual dashboard (browser-accessible)
 - [ ] Natural language query integration using RAG pipeline (LangChain/OpenAI)
 - [ ] Cluster exploration with interactive graph visualization (Plotly or PyVis)
 - [ ] Export intelligence to CHRONICLE format (Markdown, PDF)
 - [ ] Analyst feedback capture and relevance scoring
 - [ ] Implement secure AuthN/AuthZ (role-based access control)
 
----
-
-### **Phase 3 – Production Readiness & DevOps**
+### Phase 3 – Production Readiness & DevOps
 - [ ] Containerize application with Docker
 - [ ] Deploy to cloud platform (GCP or AWS)
 - [ ] Set up CI/CD pipelines using GitHub Actions
@@ -129,146 +166,94 @@ The purpose of EL ROI is to accelerate insight discovery, reduce cognitive overl
 
 ## Tech Stack
 
-### **Languages & Frameworks**
+### Languages & Frameworks
 - **Python 3.11**
 - **JavaScript** (Streamlit/React UI via Streamlit Components)
 - **FastAPI** – backend microservices and API layer
-- **Streamlit** – rapid UI prototyping and dashboard
+- **Streamlit** – browser-based web app dashboard
 - **Docker** – containerization
 - **GitHub Actions** – CI/CD
 
-### **NLP & Machine Learning**
+### NLP & Machine Learning
 - **spaCy**, **Stanza**, **NLTK** – language preprocessing and NER
 - **HuggingFace Transformers** – transformer-based models
 - **SentenceTransformers (SBERT)** – document embeddings for clustering & similarity
-- **LangChain + OpenAI API** – RAG (retrieval-augmented generation) for natural language interface
+- **LangChain + OpenAI API** – RAG (retrieval-augmented generation)
 
-### **Data Stores**
+### Data Stores
 - **FAISS** – vector similarity search
 - **PostgreSQL** or **Elasticsearch** – metadata indexing and filtering
 - **Optional**: **MLflow** – model versioning and experiment tracking
 
-### **Visualization**
+### Visualization
 - **Plotly**, **PyVis**, **NetworkX** – interactive cluster and entity graphing
 
-### **Deployment**
+### Deployment
 - **GCP** or **AWS** (planned cloud host)
 - **Prometheus/Grafana** (optional monitoring)
 
+---
+
+## Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/YOUR_USERNAME/el-roi-intelligence-triage-system.git
+cd el-roi-intelligence-triage-system
+```
+
+### 2. Configure Environment
+
+Copy `.env.example` to `.env` and fill in your API keys (e.g., OpenAI, GCP):
+
+```bash
+cp .env.example .env
+```
+
+### 3. Run Modules
+
+#### Start Streamlit Analyst Dashboard (Web App)
+
+```bash
+streamlit run ui/pages/dashboard.py
+```
+
+#### Run Ingestion Pipeline (CLI)
+
+```bash
+python data_ingestion/scheduler.py
+```
 
 ---
 
-## Folder Structure 
-
-## 📁 Folder Structure 
-
-- el-roi/
-  - auth/
-    - login.py
-    - roles_config.yaml
-  - classification/
-    - topic_classifier.py
-    - embeddings.py
-  - clustering/
-    - cluster_engine.py
-  - config/
-    - pipeline_config.yaml
-    - model_params.yaml
-    - sources_config.yaml
-  - data_ingestion/
-    - feeds/
-    - scheduler.py
-  - deployment/
-    - Dockerfile
-    - cloud_setup/
-    - github_actions/
-  - docs/
-    - architecture.md
-    - api_reference.md
-  - feedback/
-    - feedback_logger.py
-  - integration/
-    - chronicle_exporter/
-      - exporter.py
-  - logging/
-    - logger.py
-    - log_config.yaml
-  - models/
-    - embedding_model.py
-    - classifier_model.py
-    - model_utils.py
-  - nl_interface/
-    - query_handler.py
-    - rag_pipeline.py
-  - preprocessing/
-    - pipeline.py
-    - language_detection.py
-    - translation.py
-    - ner.py
-    - deduplication.py
-  - tests/
-    - test_preprocessing.py
-    - test_vector_store.py
-    - test_query_handler.py
-  - ui/
-    - pages/
-    - components/
-  - vector_store/
-    - faiss_store.py
-    - metadata_index.py
-  - visualization/
-    - entity_graph.py
-    - cluster_map.py
-  - .env.example
-  - .gitignore
-  - requirements.txt
-  - README.md
-  - .secrets/
-    - openai_api.key
-    - gcp_creds.json
-
-
----
-
-## Getting Started (via GitHub GUI)
-
-1. Clone or download this repository from GitHub.
-2. Open `.env.example` and fill in required API keys and credentials.
-3. Use Streamlit locally to test interface modules (`ui/`).
-4. Use the GitHub Projects tab to track development progress.
-
----
-
-## Usage
-
-This section will be expanded as features are built. Planned capabilities include:
+## Usage Examples
 
 - Start ingestion of multilingual OSINT feeds
-- Run automated enrichment (NER, deduplication, etc.)
+- Run automated enrichment (NER, translation, deduplication)
 - Classify and cluster documents by topic
 - Search using natural language questions
-- Export filtered content to CHRONICLE format
-- Visualize results and entity relationships via dashboard
+- Visualize entity relationships and cluster maps
+- Export source-attributed summaries to CHRONICLE format
 
 ---
 
 ## Contributing
 
-Contributions, feedback, and ideas are welcome! Please:
+We welcome contributions and ideas:
 
-- Fork the repository
-- Create a feature branch (`feature-name`)
-- Commit your changes
-- Submit a Pull Request
+1. Fork the repository  
+2. Create a feature branch (`feature/your-feature`)  
+3. Commit your changes  
+4. Submit a Pull Request  
 
-For strategic features or integrations, open an issue for discussion.
+For strategic suggestions or integrations, open an issue first.
 
 ---
 
 ## License
 
-All rights reserved. This project is protected by copyright.
-
+**All rights reserved.**  
 You may not copy, distribute, modify, or use any part of this project without explicit written permission from the author.
 
 ---
@@ -278,5 +263,3 @@ You may not copy, distribute, modify, or use any part of this project without ex
 Developed and maintained by **Justin Ryals**  
 📫 [LinkedIn](https://www.linkedin.com/in/justin-ryals-a61627371/)  
 📧 For usage or licensing inquiries, please contact the author directly.
-
-
