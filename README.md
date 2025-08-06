@@ -136,7 +136,7 @@ It ingests, enriches, and semantically clusters high-volume communications, enab
 
 ### Phase 1 – Collection & Processing MVP
 - [x] Set up GitHub repo + documentation
-- [ ] Ingest multilingual OSINT from RSS/news/social APIs
+- [x] Ingest multilingual OSINT from RSS/news/social APIs
 - [ ] Implement preprocessing:
   - Language detection
   - Translation
