@@ -137,12 +137,12 @@ It ingests, enriches, and semantically clusters high-volume communications, enab
 ### Phase 1 – Collection & Processing MVP
 - [x] Set up GitHub repo + documentation
 - [x] Ingest multilingual OSINT from RSS/news/social APIs
-- [ ] Implement preprocessing:
+- [x] Implement preprocessing:
   - Language detection
   - Translation
   - Named Entity Recognition (NER)
   - Deduplication
-- [ ] Prototype clustering and classification using sentence embeddings
+- [x] Prototype clustering and classification using sentence embeddings
 - [ ] Integrate vector similarity search with FAISS
 - [ ] Implement metadata filtering (PostgreSQL or Elasticsearch)
 
