@@ -17,6 +17,7 @@ It ingests, enriches, and semantically clusters high-volume communications, enab
 - Named Entity Recognition (NER) and entity linking
 - Text deduplication and normalization
 - Source tagging and metadata enrichment
+- Named Entity Recognition (NER) is applied **after translation**, allowing the use of high-accuracy English models for consistent entity extraction across all languages.
 
 ### 3. Analysis & Production
 - Semantic clustering of communications
